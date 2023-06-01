@@ -16,7 +16,7 @@ class ComputedRefImpl<T> {
       scheduler: () => {
         if (!this.dirty) {
           this.dirty = true;
-          track(this, 'value');
+          trggier(this, 'value');
         }
       }
     });
