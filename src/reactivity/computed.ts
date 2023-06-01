@@ -16,6 +16,7 @@ class ComputedRefImpl<T> {
       scheduler: () => {
         if (!this.dirty) {
           this.dirty = true;
+          track(this, 'value');
         }
       }
     });
@@ -26,6 +27,8 @@ class ComputedRefImpl<T> {
       this.dirty = false;
       this._value = this.effect.run();
     }
+    // 收集上层 副作用函数 例如render
+    track(this, 'value');
     return this._value;
   }
 }

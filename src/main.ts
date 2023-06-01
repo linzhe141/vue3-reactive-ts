@@ -21,8 +21,10 @@ effect(function render() {
   // effect(() => {
   //   console.log('类比--子组件', obj.foo);
   // });
-  // <div>${obj.son.value}</div>
-  // xxxxxxxxxxxxxxxx--->${obj.flag ? obj.x : obj.y}
+  // document.body.innerHTML = `
+  //   <div>${obj.son.value}</div>
+  //   xxxxxxxxxxxxxxxx--->${obj.flag ? obj.x : obj.y}
+  // `;
   document.body.innerHTML = `
     <div>foo:${obj.foo}</div>
     <div>compued:douobulefoo--->${double.value}</div>
