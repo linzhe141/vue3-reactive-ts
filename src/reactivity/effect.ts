@@ -8,6 +8,7 @@ export let activeEffect: ReactiveEffect | undefined;
 const effectStack: ReactiveEffect[] = [];
 export function effect(fn: () => any, options?: ReactiveEffectOptions) {
   const _effect = new ReactiveEffect(fn, options);
+  // lazy 为true表示不会立即执行，只有真正使用的时候，才执行，比如计算属性
   if (!options?.lazy) {
     _effect.run();
   }
