@@ -1,5 +1,4 @@
-import { reactive, effect, computed } from './reactivity';
-import { watch } from './reactivity/watch';
+import { reactive, effect, computed, watch } from './reactivity';
 const obj = reactive({
   flag: true,
   son: {
@@ -17,21 +16,48 @@ const double = computed(() => {
   return obj.foo * 2;
 });
 (window as any).__double__ = double;
-effect(function render() {
-  console.log('render~~~~~~');
-  // effect(() => {
-  //   console.log('类比--子组件', obj.foo);
-  // });
-  // document.body.innerHTML = `
-  //   <div>${obj.son.value}</div>
-  //   xxxxxxxxxxxxxxxx--->${obj.flag ? obj.x : obj.y}
-  // `;
-  document.body.innerHTML = `
-    <div>foo:${obj.foo}</div>
-    <div>compued:douobulefoo--->${double.value}</div>
-  `;
+// !basic 响应式
+// effect(function render() {
+//   console.log('render~~~~~~');
+//   document.body.innerHTML = `
+//     <div>foo:${obj.foo}</div>
+//   `;
+// });
+
+// !懒递归 嵌套对象
+// effect(function render() {
+//   console.log('render~~~~~~');
+//   document.body.innerHTML = `
+//     <div>${obj.son.value}</div>
+//   `;
+// });
+
+// !嵌套effect
+effect(function parentRender() {
+  effect(function sonRender() {
+    console.log('类比--子组件', obj.foo);
+  });
+  console.log('类比--父组件', obj.foo);
 });
 
+// !cleanUp
+// effect(function render() {
+//   console.log('render~~~~~~');
+//   document.body.innerHTML = `
+//     xxxxxxxxxxxxxxxx--->${obj.flag ? obj.x : obj.y}
+//   `;
+// });
+
+// !computed
+// effect(function render() {
+//   console.log('render~~~~~~');
+//   document.body.innerHTML = `
+//     <div>foo:${obj.foo}</div>
+//     <div>compued:douobulefoo--->${double.value}</div>
+//   `;
+// });
+
+// !watch
 watch(
   () => obj.foo,
   function (newValue, oldValue) {
