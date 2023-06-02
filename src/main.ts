@@ -1,4 +1,5 @@
 import { reactive, effect, computed } from './reactivity';
+import { watch } from './reactivity/watch';
 const obj = reactive({
   flag: true,
   son: {
@@ -30,3 +31,12 @@ effect(function render() {
     <div>compued:douobulefoo--->${double.value}</div>
   `;
 });
+
+watch(
+  () => obj.foo,
+  function (newValue, oldValue) {
+    console.log('watch:obj.foo==oldvalue---->', oldValue);
+    console.log('watch:obj.foo==newValue---->', newValue);
+  },
+  { immediate: true }
+);

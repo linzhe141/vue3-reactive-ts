@@ -12,6 +12,7 @@ export function effect(fn: () => any, options?: ReactiveEffectOptions) {
   if (!options?.lazy) {
     _effect.run();
   }
+  return _effect;
 }
 
 export class ReactiveEffect {

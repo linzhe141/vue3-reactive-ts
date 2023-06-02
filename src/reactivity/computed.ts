@@ -10,7 +10,7 @@ class ComputedRefImpl<T> {
   effect: ReactiveEffect;
   dirty = true;
   constructor(getter: ComputedGetter<T>) {
-    this.effect = new ReactiveEffect(getter, {
+    this.effect = new ReactiveEffect(() => getter(), {
       // 当依赖发生变化时触发调度器
       // 箭头函数this指向问题
       scheduler: () => {
