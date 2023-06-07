@@ -1,10 +1,11 @@
-# 基于TypeScript实现简易版的 Vue3 响应式系统
+# 基于 TypeScript 实现简易版的 Vue3 响应式系统
 
 这是一个简单的 Vue3 响应式系统的实现，包含了以下几个 API：
 
-- `reactive(obj)`：将一个普通对象转化为响应式对象，返回一个 Proxy 对象。
-- `computed(fn:getter)`：创建一个计算属性，返回一个响应式对象。
-- `watch(fn:getter,{immediate?:boolean})`：用于监听响应式对象的变化。
+- `reactive(obj)`：将一个普通对象转化为响应式对象。
+- `ref(value:baseType | object)`：将一个基本类型或普通对象类型转化为响应式对象。
+- `computed(fn:getter)`：创建一个计算属性。
+- `watch(fn:getter, {immediate?:boolean})`：用于监听响应式对象的变化。
 - `effect(fn)`：创建一个副作用函数，用于在响应式对象发生变化时执行。
 
 ## reactive
@@ -22,6 +23,21 @@ console.log(state.count); // 0
 
 state.count++;
 console.log(state.count); // 1
+```
+
+## ref
+
+`ref(value:baseType | object)` 接受一个基本类型或者普通对象 `value` 作为参数，将其转化为响应式对象(利用reactive实现)，并返回一个 Proxy 对象。使用 Proxy 对象访问响应式对象的属性时，会自动跟踪属性的依赖关系，并在属性发生变化时触发更新。
+
+```typescript
+import { ref } from './reactivity';
+
+const state = ref(1);
+
+console.log(state.value); // 1
+
+state.value++;
+console.log(state.value); // 2
 ```
 
 ## computed
@@ -45,7 +61,7 @@ console.log(doubled.value); // 2
 
 ## watch
 
-`watch(fn)` 接受一个函数 `fn` 作为参数，创建一个观察者，用于监听响应式对象的变化。当响应式对象发生变化时，观察者会自动执行函数 `fn`。
+`watch(fn, {immediate?:boolean})` 接受一个函数 `fn` 作为参数，创建一个 effect，用于监听响应式对象的变化。当响应式对象发生变化时，effect 会自动执行函数 `fn`。
 
 ```typescript
 import { reactive, watch } from './reactivity';

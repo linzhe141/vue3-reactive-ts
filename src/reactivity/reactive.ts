@@ -12,6 +12,9 @@ import { activeEffect, ReactiveEffect } from './effect';
 export const reactiveWeakMap = new WeakMap<object, any>();
 
 export function reactive<T extends object>(target: T): T {
+  if (!isObject(target)) {
+    return target;
+  }
   const proxy = new Proxy<T>(target, {
     // target 源对象, key 属性名,  receiver proxy本身或者继承它的对象
     get(target: object, key: string, receiver: object) {

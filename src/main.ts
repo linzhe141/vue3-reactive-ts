@@ -1,4 +1,6 @@
-import { reactive, effect, computed, watch } from './reactivity';
+import { reactive, effect, computed, watch, ref } from './reactivity';
+const refValue = ref(1);
+const refObjValue = ref({ test: 111 });
 const obj = reactive({
   flag: true,
   son: {
@@ -10,6 +12,8 @@ const obj = reactive({
 });
 
 (window as any).__obj__ = obj;
+(window as any).__refValue__ = refValue;
+(window as any).__refObjValue__ = refObjValue;
 
 const double = computed(() => {
   console.log('computed~~~~');
@@ -24,6 +28,15 @@ const double = computed(() => {
 //   `;
 // });
 
+// !ref
+effect(function render() {
+  console.log('render~~~~~~');
+  document.body.innerHTML = `
+    <div>refValue:${refObjValue.value.test}</div>
+    <div>refValue:${refValue.value}</div>
+  `;
+});
+
 // !懒递归 嵌套对象
 // effect(function render() {
 //   console.log('render~~~~~~');
@@ -33,12 +46,12 @@ const double = computed(() => {
 // });
 
 // !嵌套effect
-effect(function parentRender() {
-  effect(function sonRender() {
-    console.log('类比--子组件', obj.foo);
-  });
-  console.log('类比--父组件', obj.foo);
-});
+// effect(function parentRender() {
+//   effect(function sonRender() {
+//     console.log('类比--子组件', obj.foo);
+//   });
+//   console.log('类比--父组件', obj.foo);
+// });
 
 // !cleanUp
 // effect(function render() {
