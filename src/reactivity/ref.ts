@@ -11,14 +11,14 @@ export function ref<T>(value: T) {
 class RefImpl<T> {
   private _value: any;
   constructor(value: T) {
-    this._value = isObject(value) ? reactive(value as object) : value;
+    this._value = isObject(value) ? reactive(value) : value;
   }
   get value() {
     track(this, 'value');
-    return this._value as T;
+    return this._value;
   }
   set value(newValue) {
-    this._value = isObject(newValue) ? reactive(newValue as object) : newValue;
+    this._value = isObject(newValue) ? reactive(newValue) : newValue;
     trggier(this, 'value');
   }
 }
